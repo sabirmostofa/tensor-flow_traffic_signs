@@ -1,4 +1,4 @@
-# tensor-flow_trafic_signs
+# tensor-flow_traffic_signs
 
 Download all dataset Training and Test
 run load_data.sh

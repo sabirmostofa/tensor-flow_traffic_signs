@@ -1,9 +1,8 @@
 # Created by .ignore support plugin (hsz.mobi)
 tags
-app/data
 .idea
 GTSRB
 .ipynb_checkpoints
-GTSRB*
 app/.DS_Store
 .DS_Store
+app/data

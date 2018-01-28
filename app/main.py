@@ -127,8 +127,8 @@ def train_data(X_train, y_train):
                 print('Accuracy: ', a)
 
 
-# download_unzip_data_set('data', 'http://benchmark.ini.rub.de/Dataset/GTSRB_Final_Training_Images.zip')
-# download_unzip_data_set('data', 'http://benchmark.ini.rub.de/Dataset/GTSRB_Final_Test_Images.zip')
+#download_unzip_data_set('data', 'http://benchmark.ini.rub.de/Dataset/GTSRB_Final_Training_Images.zip')
+#download_unzip_data_set('data', 'http://benchmark.ini.rub.de/Dataset/GTSRB_Final_Test_Images.zip')
 
 # create train path
 train_data_dir = os.path.join('data', 'GTSRB', 'Final_Training', 'Images')
@@ -140,12 +140,12 @@ test_data_dir = os.path.join('data', 'GTSRB', 'Final_Test', 'Images')
 images, labels, file_names = load_data(train_data_dir)
 images = resize_images(images)
 #
-store_tmp_images(images, labels, os.path.join('data', 'tmp'), file_names)
+#store_tmp_images(images, labels, os.path.join('data', 'tmp'), file_names)
 
 
 resized_images_dir = os.path.join('data', 'tmp', 'data', 'GTSRB', 'Final_Training', 'Images')
 
-images, labels, _ = load_data(resized_images_dir)
+#images, labels, _ = load_data(resized_images_dir)
 
 # display_images_and_labels(images, labels)
 

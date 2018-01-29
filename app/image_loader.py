@@ -8,16 +8,16 @@ import csv
 
 class ImageLoader:
 
-    def __init__(self):
-        self.train_data_dir = os.path.join("data", "GTSRB", "Final_Training", "Images")
-        self.test_data_dir = os.path.join("data", "GTSRB", "Final_Test", "Images")
-        self.test_data_class_file = os.path.join('data', 'GT-final_test.csv')
+    def __init__(self, img_size, train_data_dir, test_data_dir, test_data_class_file_dir, num_rgb_channels=3,):
+        self.__train_data_dir = train_data_dir
+        self.__test_data_dir = test_data_dir
+        self.__test_data_class_file = test_data_class_file_dir
 
-        self.img_size = 28
-        self.num_rgb_channels = 3
-        self.img_size_flat = self.img_size * self.img_size * self.num_rgb_channels
-        self.img_shape = (self.img_size, self.img_size, self.num_rgb_channels)
-        self.num_classes = self.__count_classes(self.train_data_dir)
+        self.__img_size = img_size
+        self.__num_rgb_channels = num_rgb_channels
+        self.__img_size_flat = self.__img_size * self.__img_size * self.__num_rgb_channels
+        self.__img_shape = (self.__img_size, self.__img_size, self.__num_rgb_channels)
+        self.__num_classes = self.__count_classes(self.__train_data_dir)
 
         self.train_images = None
         self.train_labels = None
@@ -32,16 +32,16 @@ class ImageLoader:
         train_images, train_labels = self.__load_data(train_data_dir)
         test_images, test_labels = self.__load_data(test_data_dir, test_data_class_file)
 
-        train_images = self.__resize_images(train_images, self.img_shape)
-        test_images = self.__resize_images(test_images, self.img_shape)
+        train_images = self.__resize_images(train_images, self.__img_shape)
+        test_images = self.__resize_images(test_images, self.__img_shape)
 
         train_images = np.array(train_images)
         test_images = np.array(test_images)
         self.test_labels = np.array(test_labels)
         self.train_labels = np.array(train_labels)
 
-        self.train_images = self.__flatten_images(train_images, self.img_size_flat)
-        self.test_images = self.__flatten_images(test_images, self.img_size_flat)
+        self.train_images = self.__flatten_images(train_images, self.__img_size_flat)
+        self.test_images = self.__flatten_images(test_images, self.__img_size_flat)
 
     @staticmethod
     def __count_classes(data_dir):

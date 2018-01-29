@@ -8,86 +8,19 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 
-def download_unzip_data_set(target_dir, url):
-    if not os.path.exists(target_dir):
-        os.mkdir(target_dir)
-
-    path = os.path.join(target_dir, target_dir + '.zip')
-    print('download', url)
-    urllib.request.urlretrieve(url, path)
-
-    print('extract')
-    zip_ref = zipfile.ZipFile(path, 'r')
-    zip_ref.extractall('data')
-    zip_ref.close()
-
-    os.remove(path)
 
 
-def load_data(data_dir):
-    ''' load all training and test data given path '''
-
-    print('load data')
-    directories = [d for d in os.listdir(data_dir) if os.path.isdir(os.path.join(data_dir, d))]
-    labels_func = []
-    images_func = []
-    file_names_func = []
-    file_names_all = []
-    for d in directories:
-        label_dir = os.path.join(data_dir, d)
-        file_names_func = [os.path.join(label_dir, f)
-            for f in os.listdir(label_dir) if f.endswith(".ppm")]
-
-        for f in file_names_func:
-            images_func.append(data.imread(f))
-            labels_func.append(int(d))
-            file_names_all.append(f)
-
-    print("Number of labels(classes): ", len(set(labels_func)))
-    print("Number of images in dataset: ", len(images_func))
-
-    return images_func, labels_func, file_names_all
 
 
-def display_images_and_labels(images, labels):
-    print('plot data')
-    ''' plot first image of all labels'''
-
-    unique_labels = set(labels)
-    plt.figure(figsize=(15, 15))
-    i = 1
-    for j, label in enumerate(unique_labels):
-        print(j)
-        image = images[labels.index(label)]
-        plt.subplot(7, 8, i)  # 7 rows , 8 columns
-        plt.axis('off')
-        plt.title("Label {0} ({1})".format(label, labels.count(label)))
-        i += 1
-        _ = plt.imshow(image)
-    plt.show()
 
 
-def resize_images(resize_images, image_size=(32, 32)):
-    ''' resize all images given image size
-        default value -> (32,32)
-        you can change also rgb value '''
-
-    print('resize images')
-    return [transform.resize(image, image_size, mode='constant') for image in resize_images]
 
 
-def store_tmp_images(images1, labels1, target_dir, file_names1):
-    if not os.path.exists(target_dir):
-        os.mkdir(target_dir)
 
-    print('filename size: ', len(file_names1))
-    print('image size: ', len(images1))
 
-    for i, image in enumerate(images1):
-        path = os.path.join(target_dir, file_names1[i])
-        if not os.path.exists(os.path.dirname(path)):
-            os.makedirs(os.path.dirname(path), exist_ok=True)
-        imsave(os.path.join(target_dir, file_names1[i]), image)
+
+
+
 
 
 def train_data(X_train, y_train):

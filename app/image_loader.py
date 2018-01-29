@@ -25,6 +25,7 @@ class ImageLoader:
         train_images = np.array(train_images)
         train_labels = np.array(train_labels)
         train_images = self.__flatten_images(train_images, self.img_size_flat)
+        train_labels = self.one_hot_labels(train_labels)
 
         return train_labels, train_images
 
@@ -36,6 +37,12 @@ class ImageLoader:
         test_images = self.__flatten_images(test_images, self.img_size_flat)
 
         return test_labels, test_images
+
+    def one_hot_labels(self, labels):
+        ''' one hot Encoding '''
+        targets = labels.reshape(-1)
+        one_hot_labels = np.eye(self.num_classes)[targets]
+        return one_hot_labels
 
     @staticmethod
     def __count_classes(data_dir):

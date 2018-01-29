@@ -15,33 +15,27 @@ class ImageLoader:
 
         self.__img_size = img_size
         self.__num_rgb_channels = num_rgb_channels
-        self.__img_size_flat = self.__img_size * self.__img_size * self.__num_rgb_channels
+        self.img_size_flat = self.__img_size * self.__img_size * self.__num_rgb_channels
         self.__img_shape = (self.__img_size, self.__img_size, self.__num_rgb_channels)
         self.__num_classes = self.__count_classes(self.__train_data_dir)
 
-        self.train_images = None
-        self.train_labels = None
-        self.test_images = None
-        self.test_labels = None
-
     def prepare_images_for_training(self):
-        train_data_dir = os.path.join("data", "GTSRB", "Final_Training", "Images")
-        test_data_dir = os.path.join("data", "GTSRB", "Final_Test", "Images")
-        test_data_class_file = os.path.join('data', 'GT-final_test.csv')
-
-        train_images, train_labels = self.__load_data(train_data_dir)
-        test_images, test_labels = self.__load_data(test_data_dir, test_data_class_file)
-
+        train_images, train_labels = self.__load_data(self.__train_data_dir)
         train_images = self.__resize_images(train_images, self.__img_shape)
-        test_images = self.__resize_images(test_images, self.__img_shape)
-
         train_images = np.array(train_images)
-        test_images = np.array(test_images)
-        self.test_labels = np.array(test_labels)
-        self.train_labels = np.array(train_labels)
+        train_labels = np.array(train_labels)
+        train_images = self.__flatten_images(train_images, self.img_size_flat)
 
-        self.train_images = self.__flatten_images(train_images, self.__img_size_flat)
-        self.test_images = self.__flatten_images(test_images, self.__img_size_flat)
+        return train_labels, train_images
+
+    def prepare_images_for_test(self):
+        test_images, test_labels = self.__load_data(self.__test_data_dir, self.__test_data_class_file)
+        test_images = self.__resize_images(test_images, self.__img_shape)
+        test_images = np.array(test_images)
+        test_labels = np.array(test_labels)
+        test_images = self.__flatten_images(test_images, self.img_size_flat)
+
+        return test_labels, test_images
 
     @staticmethod
     def __count_classes(data_dir):
@@ -138,3 +132,4 @@ class ImageLoader:
             if not os.path.exists(os.path.dirname(path)):
                 os.makedirs(os.path.dirname(path), exist_ok=True)
             skimage.imsave(os.path.join(target_dir, file_names1[i]), image)
+
